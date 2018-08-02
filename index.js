@@ -5,7 +5,7 @@ ActionsObservable.prototype._check_ = function(callback) {
   return this.do(callback);
 };
 
-const filename = './log.json';
+const filename = `${process.cwd()}/epic-tracker.json`;
 
 const EpicTracker = {
   check(action, meta) {
