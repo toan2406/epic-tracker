@@ -10,8 +10,10 @@ const filename = `${process.cwd()}/epic-tracker.json`;
 const EpicTracker = {
   check(action, meta) {
     const log = require(filename);
-    if (Array.isArray(log[action]) && log[action].indexOf(meta.epic) === -1) {
-      log[action].push(meta.epic);
+    if (Array.isArray(log[action])) {
+      if (log[action].indexOf(meta.epic) === -1) {
+        log[action].push(meta.epic);
+      }
     } else {
       log[action] = [meta.epic];
     }
