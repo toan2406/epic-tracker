@@ -1,19 +1,28 @@
+const fs = require('fs');
 const { ActionsObservable } = require('redux-observable');
 
 ActionsObservable.prototype._check_ = function(callback) {
   return this.do(callback);
 };
 
-let actionMap = {};
+const filename = './log.json';
 
 const EpicTracker = {
   check(action, meta) {
-    if (Array.isArray(actionMap[action]))
-      return actionMap[action].push(meta.epic);
-    actionMap[action] = [meta.epic];
+    const log = require(filename);
+    if (Array.isArray(log[action])) {
+      log[action].push(meta.epic);
+    } else {
+      log[action] = [meta.epic];
+    }
+    fs.writeFileSync(filename, JSON.stringify(log));
   },
   getActions() {
-    return actionMap;
+    const log = require(filename);
+    return log;
+  },
+  reset() {
+    fs.writeFileSync(filename, '{}');
   },
 };
 
